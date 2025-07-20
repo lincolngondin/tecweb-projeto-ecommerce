@@ -6,11 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation"; // Importa o hook de rota do Next.js
 import Link from "next/link"; // Importa o componente de Link do Next.js
+import { useCart } from "@/context/CartContext";
 
 const Header = () => {
   // Usa o hook de rota do Next.js
   const router = useRouter();
-  
+  const { totalItems } = useCart();
+
   return (
     <header className="sticky top-0 z-50 border-b border-gray-800 bg-gray-900">
       <div className="container mx-auto px-4 py-4">
@@ -30,7 +32,7 @@ const Header = () => {
               </a>
             </nav>
           </div>
-          
+
           <div className="flex items-center space-x-4">
             <div className="hidden items-center space-x-2 md:flex">
               <Input
@@ -42,7 +44,7 @@ const Header = () => {
                 <Search className="h-4 w-4" />
               </Button>
             </div>
-            
+
             <div className="flex items-center space-x-2">
               <Button variant="ghost" size="sm" className="text-white hover:bg-gray-800" onClick={() => router.push('/not-found')}>
                 Criar Conta
@@ -51,10 +53,22 @@ const Header = () => {
                 Entrar
               </Button>
             </div>
-            
-            <Button variant="ghost" size="sm" className="text-white hover:bg-gray-800" onClick={() => router.push('/not-found')}>
-              <ShoppingCart className="h-5 w-5" />
-            </Button>
+
+            <div className="relative">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-white hover:bg-gray-800"
+                onClick={() => router.push("/carrinho")}
+              >
+                <ShoppingCart className="h-5 w-5" />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-md">
+                    {totalItems}
+                  </span>
+                )}
+              </Button>
+            </div>
           </div>
         </div>
       </div>

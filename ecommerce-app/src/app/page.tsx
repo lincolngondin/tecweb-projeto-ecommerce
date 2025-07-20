@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import Header from "@/components/Header";
 import FeaturedProduct from "@/components/FeaturedProduct";
@@ -12,7 +12,8 @@ import { useState } from "react";
 const page = () => {
 
   const [pesquisa, setPesquisa] = useState<string>();
-  
+  const [produtoDestaque, setProdutoDestaque] = useState<Product>(featuredProducts[1]);
+
   return (
     <div className="min-h-screen bg-gray-900">
       <Header />
@@ -20,7 +21,7 @@ const page = () => {
       <main className="container mx-auto px-4 py-8 space-y-12">
         <section id="destaques">
           <h2 className="text-2xl font-bold text-white mb-6">Destaques</h2>
-          <FeaturedProduct />
+          <FeaturedProduct product={produtoDestaque} />
         </section>
         <section id="catalogo">
           <div className="bg-gray-800 rounded-lg p-6 mb-8 mt-8">
@@ -67,13 +68,15 @@ const page = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {catalogProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                name={product.name}
-                price={product.price}
-                image={product.image}
-              />
+              <div key={product.id} onClick={() => setProdutoDestaque(product)}>
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+                  image={product.image}
+                />
+              </div>
             ))}
           </div>
         </section>
@@ -81,14 +84,4 @@ const page = () => {
     </div>
   );
 };
-<div className="busca-e-filtros">
-  <div className="barra-pesquisa">
-    <input type="text" placeholder="Pesquisar" />
-  </div>
-  <div className="filtros">
-    <button className="filtro-botao">Marca</button>
-    <button className="filtro-botao">Preço</button>
-    <button className="filtro-botao mais-vendidos">Mais Vendidos</button>
-  </div>
-</div>;
 export default page;
